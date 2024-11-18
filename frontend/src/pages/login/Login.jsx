@@ -1,28 +1,68 @@
+import { useState } from "react";
+import { Link } from "react-router-dom";
+import useLogin from "../../hooks/useLogin";
 
 const Login = () => {
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const {loading, login}= useLogin();
+
+  const handleSubmit = async(e) => {
+    e.preventDefault();
+    await login(username, password);
+  };
+
   return (
-    <div className="flex flex-col items-center justify-center min-w-96 mx-auto ">
+    <div className="my-bg">
+    <div className="flex flex-col items-center justify-center min-w-96 mx-auto">
       <div className="w-full p-6 rounded-lg shadow-md bg-gray-400 bg-clip-padding backdrop-filter backdrop-blur-lg bg-opacity-0">
-        <h1 className="text-3xl font-semibold text-center text-gray-300">Login
+        <h1 className="text-3xl font-semibold text-center text-gray-300">
+          Login
           <span className="text-blue-500"> ChatApp</span>
         </h1>
-        <form action="">
+        <form onSubmit={handleSubmit}>
           <div>
             <label className="label p-2" htmlFor="username">
               <span className="text-base label-text">Username</span>
             </label>
-            <input type="text" name="username" placeholder="Enter Username" id="" className="w-full input input-bordered h-10" />
+            <input
+              type="text"
+              name="username"
+              placeholder="Enter Username"
+              id=""
+              className="w-full input input-bordered h-10"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+            />
             <label className="label p-2" htmlFor="password">
               <span className="text-base label-text">passowrd</span>
             </label>
-              <input type="text" name="password" placeholder="Enter Password" id="" className="w-full input input-bordered h-10" />
+            <input
+              type="text"
+              name="password"
+              placeholder="Enter Password"
+              id=""
+              className="w-full input input-bordered h-10"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+            />
           </div>
-          <a href="#" className="text-sm hover:underline hover:text-blue-600 mt-2 inline-block">{"Don't"} have an Account?</a>
-          <button className="btn btn-block btn-sm mt-2">Login</button>
+          <Link
+            to="/signup"
+            className="text-sm hover:underline hover:text-blue-600 mt-2 inline-block"
+          >
+            {"Don't"} have an Account?
+          </Link>
+          <button className="btn btn-block btn-sm mt-2"
+            disabled={loading}
+          >
+            {loading? <span className="loading loading-spinner"/>: "Login"}
+          </button>
         </form>
       </div>
     </div>
-  )
-}
+    </div>
+  );
+};
 
 export default Login;
