@@ -1,5 +1,7 @@
-import express from 'express';
 import dotenv from 'dotenv';
+dotenv.config();
+
+import express from 'express';
 import mongoose from 'mongoose';
 import cookieParser from 'cookie-parser';
 
@@ -8,9 +10,8 @@ import messageRoutes from './routes/message.routes.js';
 import userRoutes from './routes/user.routes.js';
 
 
-import connectMongoDB from './db/ConnectToMongoDB.js';
+import connectMongoDB from './db/connectToMongoDB.js';
 import { app, server } from './socket/socket.js';
-dotenv.config();
 
 const PORT = process.env.PORT;
 
