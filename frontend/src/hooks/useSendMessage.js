@@ -12,7 +12,8 @@ const useSendMessage = () => {
             const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}api/message/send/${selectedConversation._id}`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({message})
+                body: JSON.stringify({message}),
+                credentials: "include",
             });
             
             const data = await res.json();
