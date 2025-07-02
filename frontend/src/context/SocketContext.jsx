@@ -10,30 +10,31 @@ export const useSocketContext = () => {
 
 export const SocketContextProvider = ({ children }) => {
 
-    const [socket, setSocket] = useState(null); 
+    const [socket, setSocket] = useState(null);
     const [onlineUsers, setOnlineUsers] = useState([]);
     const { authUser } = useAuthContext();
 
     useEffect(() => {
+        let socketInstance;
+
         if (authUser) {
-            const socket = io(import.meta.env.VITE_SOCKET_URL, {
+            socketInstance = io(import.meta.env.VITE_SOCKET_URL, {
                 query: { userId: authUser._id },
                 withCredentials: true,
             });
-            setSocket(socket);
+            setSocket(socketInstance);
 
-            // socket.on is used to listen the events, can be used on both client and server side...
-            socket.on("getOnlineUsers", (users) => {
+            socketInstance.on("getOnlineUsers", (users) => {
                 setOnlineUsers(users);
             });
+        }
 
-            return () => socket.close();
-        } else {
-            if (socket) {
-                socket.close();
+        return () => {
+            if (socketInstance) {
+                socketInstance.disconnect(); // ✅ use disconnect() for a clean shutdown
                 setSocket(null);
             }
-        }
+        };
     }, [authUser]);
 
     return <SocketContext.Provider value={{ socket, onlineUsers }}>{children}</SocketContext.Provider>;
