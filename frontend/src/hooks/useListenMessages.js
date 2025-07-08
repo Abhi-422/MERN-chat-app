@@ -4,15 +4,15 @@ import useConversation from '../zustand/useConversation';
 
 const useListenMessages = () => {
     const { socket } = useSocketContext(); 
-    const { setMessages } = useConversation();
+    const { messages, setMessages } = useConversation();
 
     useEffect(() => {
         socket?.on("newMessage", (newMessage) => {
-            setMessages((prev) => [...prev, newMessage]); // ✅ Safe with Zustand
+            setMessages([...messages, newMessage]); // ✅ Safe with Zustand
         });
 
         return () => socket?.off("newMessage");
-    }, [socket, setMessages]);
+    }, [socket, messages, setMessages]);
 };
 
 export default useListenMessages;
