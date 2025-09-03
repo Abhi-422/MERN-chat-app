@@ -17,9 +17,9 @@ import { app, server } from './socket/socket.js';
 const PORT = process.env.PORT;
 
 app.use(cors({
-  origin: ['http://localhost:3000', 'https://chat-422-app.netlify.app'],
-  credentials: true,
-  methods: ['GET', 'POST', 'PUT', 'DELETE']
+  origin: ['http://localhost:3000', 'https://mern-chat-422.netlify.app'],
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  credentials: true
 }));
 
 app.use(express.json()); // to parse the incoming requests with JSON payload from req.body
