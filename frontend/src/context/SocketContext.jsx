@@ -21,6 +21,7 @@ export const SocketContextProvider = ({ children }) => {
             socketInstance = io(import.meta.env.VITE_SOCKET_URL, {
                 query: { userId: authUser._id },
                 withCredentials: true,
+                transports: ["websocket"], //force WS
             });
             setSocket(socketInstance);
 
